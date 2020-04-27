@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Map</title>
+       <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBjUI8vE1zk4CSnLkcok6wHhJqqDlUf9WQ&libraries=places&callback=initMap" type="text/javascript"></script>
+
+    <meta charset="UTF-8">
+    <style >
+
+      #map {
+           height: 400px;
+           width: 800px;
+           margin-top:10px;
+           margin-left: 280px;
+      }
+
+    </style>
+  </head>
+  <body>
+
+    <div class="row">
+      <div class="col-sm-12">
+
+        <div id="map"></div>
+      </div>
+    </div>
+    <script>
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 23.6850, lng: 90.3563},
+          zoom: 7
+        });
+    {% for ins in instance %}
+        addMarker({lat:{{ ins.latitude }}, lng:{{ ins.longitude }}});
+
+        function addMarker(coords){
+        var marker = new google.maps.Marker({
+            position: coords,
+            map:map,
+            });
+           }
+
+     {% endfor %}
+      }
+    </script>
+
+  </body>
+</html>

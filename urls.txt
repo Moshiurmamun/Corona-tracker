@@ -1,0 +1,23 @@
+1. Sign up: https://coronatrace.pythonanywhere.com/accounts/api/sign-up/
+
+2. Sign in: https://coronatrace.pythonanywhere.com/accounts/api/sign-in/
+
+3. Sign out: https://coronatrace.pythonanywhere.com/accounts/api/sign-out/
+
+
+Here 'moshiur' is username field in the url
+4. Update password: https://coronatrace.pythonanywhere.com/accounts/api/update/password/moshiur/
+
+
+Here 'moshiur' is username field in the url
+5. User details: https://coronatrace.pythonanywhere.com/accounts/api/member/moshiur/
+
+Here 'moshiur' is username field in the url
+
+6. User edit details: https://coronatrace.pythonanywhere.com/accounts/api/member/edit/moshiur/
+
+
+
+7. Create health status: https://coronatrace.pythonanywhere.com/accounts/api/health-create/
+
+8. All users health list : https://coronatrace.pythonanywhere.com/accounts/api/health-list/

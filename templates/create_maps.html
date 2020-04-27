@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+
+     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBjUI8vE1zk4CSnLkcok6wHhJqqDlUf9WQ&libraries=places&callback=initMap" type="text/javascript"></script>
+
+    <meta charset="UTF-8">
+
+    <style>
+         #map {
+           height: 400px;
+           width: 800px;
+           margin-top:10px;
+           margin-left: 280px;
+      }
+    </style>
+
+</head>
+
+<body>
+
+
+<p id="demo"></p>
+
+<div class="row">
+      <div class="col-sm-12">
+
+        <div id="map"></div>
+      </div>
+</div>
+
+
+<script>
+
+//window.onload = function() {
+//        setTimeout(function () {
+ //           location.reload()
+  //      }, 20000);
+  //   };
+
+
+var x = document.getElementById("demo");
+window.load = getLocation()
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(showPosition);
+  } else {
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position){
+    x.innerHTML="Latitude: " + position.coords.latitude +
+    "<br>Longitude: " + position.coords.longitude;
+     //ajax
+    data = JSON.stringify({
+        "x": position.coords.latitude,
+        "y":  position.coords.longitude
+    })
+     var xhr = new XMLHttpRequest();
+     var type= "POST";
+     var url = "";
+     var cache = true;
+
+     xhr.open(type, url, cache);
+     xhr.setRequestHeader('X-CSRFToken', '{{csrf_token}}');
+     xhr.onreadystatechange = function(){
+        if (this.readyState == 4 && this.status ==200){
+            var t =JSON.parse(this.responseText);
+            console.log(t);
+        }
+     }
+     xhr.send(data);
+}
+
+
+//View map part
+   var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: {{current_user.latitude}}, lng: {{current_user.longitude}} },
+          zoom: 17
+        });
+   var marker = new google.maps.Marker({
+    map: map,
+    draggable: true,
+    title: 'Your Current Location' ,
+    animation: google.maps.Animation.DROP,
+    position: {lat: {{current_user.latitude}}, lng: {{current_user.longitude}} }
+  });
+    marker.addListener('click', toggleBounce);
+
+
+    function toggleBounce() {
+      if (marker.getAnimation() !== null) {
+        marker.setAnimation(null);
+      } else {
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+      }
+    }
+
+    {% for ins in instance %}
+            addMarker({lat:{{ ins.latitude }}, lng:{{ ins.longitude }}});
+
+            function addMarker(coords){
+            var marker = new google.maps.Marker({
+                position: coords,
+                map:map,
+                icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+                });
+               }
+
+     {% endfor %}
+      }
+
+</script>
+
+</body>
+</html>
